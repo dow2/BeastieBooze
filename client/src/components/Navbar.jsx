@@ -23,11 +23,12 @@ import { UserContext } from '../userContext'
 const Navbar = () => {
 
   //* links to endpoints that will be handled by Routes in App component
-  const { userInfo, isLoggedIn } = useContext(UserContext);
+  const { userInfo, isLoggedIn, loginInfo } = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState()
   const [caption, setCaption] = useState("")
   const { username } = userInfo;
+  const {googleId, imageUrl, name } = loginInfo;
   //state to hold collapsing navbar
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
   const handleNavCollapse = () => {
@@ -48,10 +49,13 @@ const Navbar = () => {
     const formData = new FormData();
     formData.append("image", file);
     formData.append("caption", caption);
+    formData.append("googleId", googleId);
+    formData.append("imageUrl", imageUrl);
+    formData.append("name", name);
 
     axios.post('/routes/images', formData, { headers: {'Content-Type': 'multipart/form-data'}})
-      .then((data) => {
-        console.log(data);
+      .then(() => {
+        console.log('Image uploaded');
       })
       .catch(err => {
         console.log(err);

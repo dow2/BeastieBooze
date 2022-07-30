@@ -126,6 +126,17 @@ const createEvent = async (args) => {
   };
 };
 
+const ImgUploadSchema = new mongoose.Schema({
+  imageName: String,
+  caption: String,
+  bar: String,
+  username: String,
+  imageUrl: String,
+  googleId: String,
+});
+
+const ImgUpload = mongoose.model('ImgUpload', ImgUploadSchema);
+
 module.exports = {
   User,
   Drink,
@@ -135,4 +146,5 @@ module.exports = {
   Event,
   createEvent,
   ShoppingList,
+  ImgUpload,
 };
