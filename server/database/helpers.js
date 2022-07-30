@@ -1,4 +1,4 @@
-const { User, Drink, Review } = require('./Models');
+const { User, Drink, Review, ShoppingList } = require('./Models');
 
 // getUser should take a userId and return the found user, empty array or null if not found?
 const getUser = async (id) => {
@@ -70,6 +70,32 @@ const findDrinkReviews = async (id) => {
   return drinkReviews;
 };
 
+
+// Slackers get and create shoppingList
+const getShoppingList = async (userId) => {
+  const { googleId } = userId;
+  
+  try {
+    const shoppingList = await ShoppingList.find({ user: googleId });
+    return shoppingList;
+  } catch (err) {
+    console.error('could not get shoppingList\n', err);
+  }
+  
+  } 
+  
+  const createShoppingList = async (userId) => {
+    const { googleId } = userId;
+  
+    try {
+      const newList = await ShoppingList.create({ googleId })
+      return newList;
+    } catch (err) {
+      console.error('createUserShoppingList failed \n', err);
+    }
+  }
+
+
 module.exports = {
   getUser,
   createUser,
@@ -78,4 +104,6 @@ module.exports = {
   findAndDeleteFavorites,
   addReviews,
   findDrinkReviews,
+  createShoppingList,
+  getShoppingList
 };

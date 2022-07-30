@@ -7,6 +7,8 @@ const {
   findAndDeleteFavorites,
   addReviews,
   findDrinkReviews,
+  createShoppingList,
+  getShoppingList
 } = require('../database/helpers');
 const axios = require('axios');
 const { User } = require('../database/Models');
@@ -101,6 +103,36 @@ usersRouter.get('/getReviews/:id', (req, res) => {
       console.error(err);
       res.sendStatus(500);
     });
+});
+
+//Slackerss shoppingList get and patch routes
+usersRouter.get('/shoppinglist/:user', async (req, res) => {
+
+  // id from req.params
+  const { user } = req.params;
+
+  // find shoppingList if it exist
+  const [list] = await getShoppingList(user)
+
+
+  // then return shoppinglist
+  if (list) {
+    res.status(200).send(list);
+
+  } else {
+    // if not create new shoppinglist then return
+    createShoppingList({ googleId: user })
+      .then((data) => {
+        console.log('Here is the data returned from creating a shoppingList\n', data);
+        res.status(201).send(data);
+      })
+      .catch((err) => {
+        console.log('error on createShoppingList\n', err);
+      })
+  }
+
+
+
 });
 
 module.exports = { usersRouter };
