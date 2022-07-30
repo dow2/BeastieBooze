@@ -8,7 +8,8 @@ const {
   addReviews,
   findDrinkReviews,
   createShoppingList,
-  getShoppingList
+  getShoppingList,
+  updateShoppingList
 } = require('../database/helpers');
 const axios = require('axios');
 const { User } = require('../database/Models');
@@ -134,5 +135,23 @@ usersRouter.get('/shoppinglist/:user', async (req, res) => {
 
 
 });
+
+usersRouter.patch('/shoppinglist/:user', (req, res) => {
+  // get user from req.params
+  const { user } = req.params;
+  const { update } = req.body;
+  
+  
+  updateShoppingList({ googleId: user }, update)
+  .then((data) => {
+    
+    res.status(201).send(data);
+  })
+  .catch((err) => {
+    console.error('error on shoppingList patch request \n', err);
+    res.sendStatus(500);
+  })
+
+})
 
 module.exports = { usersRouter };

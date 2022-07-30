@@ -31,8 +31,14 @@ const DrinkView = () => {
 
   const ingredients = ingredientParser(aDrink);
 
-  const { isLoggedIn, favoriteDrinks, toggleFavorite, removeFavorite } =
+  const { isLoggedIn, favoriteDrinks, toggleFavorite, removeFavorite, getShoppingList, shoppingList, updateShoppingList, setShoppingList } =
     useContext(UserContext);
+
+    //when drinkView renders setShoppingList
+    useEffect(() => {
+      getShoppingList();
+    }, [])
+
 
   // grab what we need from drink object, reassign names
   const {
@@ -103,7 +109,41 @@ const DrinkView = () => {
   };
 
   //Slackerss add Drink to shoppingList button
-  const ShoppingButton = () => {};
+  const ShoppingButton = () => {
+    //initialize object to pass into shoppingList with id and name and quantity of 1
+    const updateObj = {
+      drinkId: id,
+      name: name,
+      quantity: 1
+    }
+    // for each ingredient assign an ingredient property and measurement property 
+    let count = 1;
+    ingredients.forEach((ing) => {
+      updateObj[`ing${count}`] = ing[0];
+      updateObj[`meas${count}`] = ing[1];
+      count++;
+    })
+    count = 0;
+    if (isLoggedIn) {
+      return (
+        <>
+          <br></br>
+          <span className='drink-button'>
+            <button
+              type='button'
+              className='btn btn-dark'
+              onClick={() => {
+                updateShoppingList({ update: updateObj });
+              }}
+            >
+              Add To Shopping List
+            </button>
+          </span>
+        {/** remove from Shoppinglist button? */}
+        </>
+      );
+    }
+  };
 
   return (
     <div className='container'>
@@ -130,6 +170,7 @@ const DrinkView = () => {
           <p>{directions}</p>
           <StarRating />
           {userButtons()}
+          {ShoppingButton()}
           <br></br>
           <br></br>
         </div>
