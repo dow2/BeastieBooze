@@ -25,8 +25,8 @@ const Navbar = () => {
   //* links to endpoints that will be handled by Routes in App component
   const { userInfo, isLoggedIn, loginInfo } = useContext(UserContext);
   const [open, setOpen] = useState(false);
-  const [file, setFile] = useState()
-  const [caption, setCaption] = useState("")
+  const [file, setFile] = useState();
+  const [caption, setCaption] = useState("");
   const { username } = userInfo;
   const {googleId, imageUrl, name } = loginInfo;
   //state to hold collapsing navbar
@@ -50,7 +50,7 @@ const Navbar = () => {
     formData.append("image", file);
     formData.append("caption", caption);
     formData.append("googleId", googleId);
-    formData.append("imageUrl", imageUrl);
+    formData.append("googleImgUrl", imageUrl);
     formData.append("name", name);
 
     axios.post('/routes/images', formData, { headers: {'Content-Type': 'multipart/form-data'}})
@@ -60,6 +60,8 @@ const Navbar = () => {
       .catch(err => {
         console.log(err);
       });
+
+      setCaption('');
   }
 
   const fileSelected = e => {
@@ -113,7 +115,7 @@ const Navbar = () => {
                 <form onSubmit={submit}>
                   <input id="choose-file" type="file" onChange={fileSelected} accept="image/*" />
                   <br />
-                  <TextField id="caption-input" label="Name of Drink" variant="outlined" onChange={e => setCaption(e.target.value)} type="text" />
+                  <TextField value={caption} id="caption-input" label="Name of Drink" variant="outlined" onChange={e => setCaption(e.target.value)} type="text" />
                   {/* <input id="caption-input" value={caption} onChange={e => setCaption(e.target.value)} type="text" placeholder='Name of Drink'></input> */}
                   <DialogActions>
                     <Button type="submit">Upload</Button>

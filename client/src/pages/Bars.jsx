@@ -5,6 +5,7 @@ import ReactLoading from "react-loading";
 import Map from '../components/Map.jsx';
 import ImgUploads from '../components/ImgUploads.jsx';
 import axios from 'axios';
+import { Carousel } from 'react-responsive-carousel';
 
 //in order for map to render propeerly in app, it needs to be wrapped by a couple other functions. instead of adding a  couple of high order components, see implementation at ****
 const Bars = () => {
@@ -20,8 +21,9 @@ const Bars = () => {
 
   const getUploadedImgs = () => {
     axios.get('/routes/images')
-      .then(({data}) => {
+      .then(({ data }) => {
         setUploadedImgs(data);
+        console.log(data);
       })
       .catch(err => {
         console.log(err);
@@ -42,12 +44,14 @@ const Bars = () => {
     return (
       <div>
         <Map />
-        {uploadedImgs.map((uploadedImg, index) => (
-          <ImgUploads
-            uploadedImg={uploadedImg}
-            key={index}
-          />
-        ))}
+        <Carousel>
+          {uploadedImgs.map((uploadedImg, index) => (
+            <ImgUploads
+              uploadedImg={uploadedImg}
+              key={index}
+            />
+          ))}
+        </Carousel>
       </div>
     );
   }

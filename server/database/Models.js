@@ -129,10 +129,11 @@ const createEvent = async (args) => {
 
 const ImgUploadSchema = new mongoose.Schema({
   imageName: String,
+  imageUrl: String,
   caption: String,
   bar: String,
   username: String,
-  imageUrl: String,
+  googleImgUrl: String,
   googleId: String,
 });
 
