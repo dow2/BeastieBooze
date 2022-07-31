@@ -1,34 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useContext, useMemo } from 'react';
 // import { withScriptjs, withGoogleMap, InfoWindow, Marker } from 'react-google-maps';
 import { useLoadScript, GoogleMap } from '@react-google-maps/api';
 import ReactLoading from "react-loading";
 import Map from '../components/Map.jsx';
 import ImgUploads from '../components/ImgUploads.jsx';
-import axios from 'axios';
 import { Carousel } from 'react-responsive-carousel';
+import { ImgUploadContext } from '../imageUploadsContext.jsx';
 
 //in order for map to render propeerly in app, it needs to be wrapped by a couple other functions. instead of adding a  couple of high order components, see implementation at ****
 const Bars = () => {
+  const { uploadedImgs, getUploadedImgs } = useContext(ImgUploadContext);
+
+
   //on click of a marker in the map, set the state to that store so the InfoWindow can be rendered
   // const [liquorStore, setLiquorStore] = useState(null);
-
-  const [uploadedImgs, setUploadedImgs] = useState([]);
-
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY,
     libraries: ['places']
   })
-
-  const getUploadedImgs = () => {
-    axios.get('/routes/images')
-      .then(({ data }) => {
-        setUploadedImgs(data);
-        console.log(data);
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  }
 
   useEffect(() => {
     getUploadedImgs();
@@ -44,7 +33,13 @@ const Bars = () => {
     return (
       <div>
         <Map />
-        <Carousel>
+        <Carousel
+          axis='horizontal'
+          centerMode='true'
+          showArrows='true'
+          useKeyboardArrows='true'
+          // infiniteLoop='true'
+        >
           {uploadedImgs.map((uploadedImg, index) => (
             <ImgUploads
               uploadedImg={uploadedImg}

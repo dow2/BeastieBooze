@@ -1,5 +1,4 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -7,27 +6,28 @@ import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import Typography from '@mui/material/Typography';
 
-const ExpandMore = styled((props) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
 
 const ImgUploads = ({ uploadedImg }) => {
   const { caption, username, googleImgUrl, imageUrl } = uploadedImg;
 
+  const subhead = `Photo taken by ${username}`;
+
   return (
     <div>
       <Card sx={{ maxWidth: 345 }} >
-        <CardHeader
-        >
-
-        </CardHeader>
+        <CardHeader 
+          avatar={
+            <Avatar alt={username} src={googleImgUrl} />
+          }
+          title={caption}
+          subheader={subhead}
+        />
+        <CardMedia 
+          component="img"
+          height="194"
+          image={imageUrl}
+          alt={caption}
+        />
       </Card>
     </div>
   )
