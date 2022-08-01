@@ -18,28 +18,7 @@ uploadImgRouter.get('/', (req, res) => {
   ImgUpload.find({})
     .then((uploads) => {
       res.status(200).send(uploads);
-      // for (let upload of uploads) {
-      //   getObjectSignedUrl(upload.imageName)
-      //     .then((url) => {
-      //       ImgUpload.findOneAndUpdate({ _id: upload._id }, { imageUrl: url })
-      //         .catch((err) => {
-      //           console.error(err);
-      //         })
-      //     })
-      //     .catch((err) => {
-      //       console.error(err);
-      //     })
-      // }
     })
-    // .then(() => {
-    //   ImgUpload.find({})
-    //     .then((uploads) => {
-    //       res.status(200).send(uploads);
-    //     })
-    //     .catch((err) => {
-    //       console.error(err);
-    //     })
-    // })
     .catch(err => {
       console.error(err);
       res.sendStatus(500);

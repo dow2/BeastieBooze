@@ -4,8 +4,10 @@ import { useLoadScript, GoogleMap } from '@react-google-maps/api';
 import ReactLoading from "react-loading";
 import Map from '../components/Map.jsx';
 import ImgUploads from '../components/ImgUploads.jsx';
-import { Carousel } from 'react-responsive-carousel';
 import { ImgUploadContext } from '../imageUploadsContext.jsx';
+
+import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
 
 //in order for map to render propeerly in app, it needs to be wrapped by a couple other functions. instead of adding a  couple of high order components, see implementation at ****
 const Bars = () => {
@@ -31,22 +33,30 @@ const Bars = () => {
     );
   } else {
     return (
-      <div>
+      <div id='map-page'>
         <Map />
-        <Carousel
-          axis='horizontal'
-          centerMode='true'
-          showArrows='true'
-          useKeyboardArrows='true'
-          // infiniteLoop='true'
-        >
-          {uploadedImgs.map((uploadedImg, index) => (
-            <ImgUploads
-              uploadedImg={uploadedImg}
-              key={index}
-            />
-          ))}
-        </Carousel>
+        <Container>
+          <Grid
+            container
+            spacing={{ xs: 2, md: 3 }}
+            columns={{ xs: 4, sm: 8, md: 12 }}
+          >
+            {uploadedImgs.map((uploadedImg, index) => (
+              <Grid 
+                item
+                key={index} 
+                xs={2} 
+                sm={3} 
+                md={4}
+              >
+                <ImgUploads
+                  uploadedImg={uploadedImg}
+                  key={index}
+                />
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
       </div>
     );
   }
