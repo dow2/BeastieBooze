@@ -133,6 +133,18 @@ const getEvents = async () => {
   return await Event.find({}).exec();
 };
 
+const ImgUploadSchema = new mongoose.Schema({
+  imageName: String,
+  imageUrl: String,
+  caption: String,
+  bar: String,
+  username: String,
+  googleImgUrl: String,
+  googleId: String,
+});
+
+const ImgUpload = mongoose.model('ImgUpload', ImgUploadSchema);
+
 module.exports = {
   User,
   Drink,
@@ -142,5 +154,6 @@ module.exports = {
   Event,
   createEvent,
   ShoppingList,
+  ImgUpload,
   getEvents,
 };

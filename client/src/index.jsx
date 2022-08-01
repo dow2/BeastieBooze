@@ -12,14 +12,17 @@ import App from './components/App';
 
 import { UserContextProvider } from './userContext'
 import { BoozeContextProvider } from './boozeContext'
+import { ImgUploadContextProvider } from './imageUploadsContext'
 
 
 ReactDOM.render(
   <UserContextProvider>
     <BoozeContextProvider>
-      <Router>
-        <App />
-      </Router>
+      <ImgUploadContextProvider>
+        <Router>
+          <App />
+        </Router>
+      </ImgUploadContextProvider>
     </BoozeContextProvider>
   </UserContextProvider>,
   document.getElementById('app'));

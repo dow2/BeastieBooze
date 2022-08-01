@@ -14,18 +14,20 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-// import { UserContext } from '../userContext.jsx';
 
-import { UserContext } from '../userContext';
+import { UserContext } from '../userContext'
+import { ImgUploadContext } from '../imageUploadsContext.jsx';
 import EventCreation from './EventCreation.jsx';
 
 const Navbar = () => {
   //* links to endpoints that will be handled by Routes in App component
-  const { userInfo, isLoggedIn } = useContext(UserContext);
+  const { userInfo, isLoggedIn, loginInfo } = useContext(UserContext);
+  const { getUploadedImgs } = useContext(ImgUploadContext);
   const [open, setOpen] = useState(false);
   const [file, setFile] = useState();
-  const [caption, setCaption] = useState('');
+  const [caption, setCaption] = useState("");
   const { username } = userInfo;
+  const {googleId, imageUrl, name } = loginInfo;
   //state to hold collapsing navbar
   const [isNavCollapsed, setIsNavCollapsed] = useState(true);
   const handleNavCollapse = () => {
@@ -44,20 +46,22 @@ const Navbar = () => {
     e.preventDefault();
 
     const formData = new FormData();
-    formData.append('image', file);
-    formData.append('caption', caption);
+    formData.append("image", file);
+    formData.append("caption", caption);
+    formData.append("googleId", googleId);
+    formData.append("googleImgUrl", imageUrl);
+    formData.append("name", name);
 
-    axios
-      .post('/routes/images', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      })
-      .then((data) => {
-        console.log(data);
+    axios.post('/routes/images', formData, { headers: {'Content-Type': 'multipart/form-data'}})
+      .then(() => {
+        console.log('Image uploaded');
       })
       .catch((err) => {
         console.log(err);
       });
-  };
+
+      setCaption('');
+  }
 
   const fileSelected = (e) => {
     const file = e.target.files[0];
