@@ -76,18 +76,18 @@ const drinkListingSchema = new mongoose.Schema({
   },
   name: String,
   quantity: Number,
-  ing1: String,
-  ing2: String,
-  ing3: String,
-  ing4: String,
-  ing5: String,
-  ing6: String,
-  ing7: String,
-  ing8: String,
-  ing9: String,
-  ing10: String,
-  ing11: String,
-  ing12: String,
+  ing1: String, meas1: String,
+  ing2: String, meas2: String,
+  ing3: String, meas3: String,
+  ing4: String, meas4: String,
+  ing5: String, meas5: String,
+  ing6: String, meas6: String,
+  ing7: String, meas7: String,
+  ing8: String, meas8: String,
+  ing9: String, meas9: String,
+  ing10: String, meas10: String,
+  ing11: String, meas11: String,
+  ing12: String, meas12: String
 });
 
 // Slackerss ShoppingList Schema for profiles
@@ -118,13 +118,19 @@ const getDrinks = async () => {
 };
 
 const createEvent = async (args) => {
-  const event = {
-    title: args.title,
-    description: args.description,
-    date: new Date().toISOString(),
-    location: args.location,
-    eventType: args.eventType,
-  };
+  const { eventName: title, description, date, location, eventType } = args;
+  const newEvent = new Event({
+    title,
+    description,
+    date,
+    location,
+    eventType,
+  });
+  await newEvent.save();
+};
+
+const getEvents = async () => {
+  return await Event.find({}).exec();
 };
 
 const ImgUploadSchema = new mongoose.Schema({
@@ -149,4 +155,5 @@ module.exports = {
   createEvent,
   ShoppingList,
   ImgUpload,
+  getEvents,
 };

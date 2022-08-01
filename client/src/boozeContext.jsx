@@ -9,6 +9,7 @@ function BoozeContextProvider({ children }) {
   const [drinksFeed, setDrinksFeed] = useState([]);
   const [aDrink, setADrink] = useState({});
   const [customDrinks, setCustomDrinks] = useState([]);
+  const [events, setEvents] = useState([]);
   const [searchResults, setSearchResults] = useState([]);
 
   // gets 10 random drinks from our api
@@ -50,14 +51,33 @@ function BoozeContextProvider({ children }) {
       .catch((err) => console.error(err));
   };
 
+  const createEvent = (userInput) => {
+    axios
+      .post('/routes/event', userInput)
+      .then(() => {
+        console.log('USER INPUT POSTED');
+      })
+      .catch((err) => console.error(err));
+  };
+
+  const getEvents = () => {
+    axios
+      .get('/routes/event')
+      .then(({ data }) => {
+        console.log(data);
+        setEvents(data);
+      })
+      .catch((err) => console.error(err));
+  };
+
   //Function To get all Custom Drinks and Populate them for CustomFeed component
 
   const getCustomDrinks = () => {
     axios
-      .get('/routes/custom')
+      .get('/routes/event')
       .then(({ data }) => {
         console.log(data);
-        setCustomDrinks(data);
+        setEvents(data);
       })
       .catch((err) => console.error(err));
   };
@@ -89,6 +109,14 @@ function BoozeContextProvider({ children }) {
       );
   };
 
+  const removeEvent = (id) => {
+    //removes favorite
+
+    axios.patch(`/routes/event/delete`, {
+      id,
+    });
+  };
+
   const drinksProps = {
     drinksFeed,
     random10,
@@ -100,6 +128,10 @@ function BoozeContextProvider({ children }) {
     searchResults,
     customDrinks,
     getCustomDrinks,
+    createEvent,
+    getEvents,
+    events,
+    removeEvent,
   };
 
   // anything we want to pass on to other components must go in this value object

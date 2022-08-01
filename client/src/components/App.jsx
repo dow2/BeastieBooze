@@ -14,6 +14,7 @@ import CustomFeed from '../pages/CustomFeed';
 import CustomDrinkView from '../pages/CustomDrinkView';
 import Profile from '../pages/Profile';
 import EventCreation from './EventCreation';
+import Events from '../pages/Events';
 import Map from '../pages/Bars.jsx';
 
 const App = () => {
@@ -33,7 +34,8 @@ const App = () => {
         <Route exact path='/custom' component={CustomFeed} />
         <Route path='/custom/:drinkId' component={CustomDrinkView} />
         <Route path='/map' component={Map} />
-        <Route path='events' component={EventCreation} />
+        <Route path='/createevent' component={EventCreation} />
+        <Route exact path='/events' component={Events} />
       </Switch>
     </div>
   );

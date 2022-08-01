@@ -1,4 +1,4 @@
-const { User, Drink, Review, ShoppingList } = require('./Models');
+const { User, Drink, Review, Event, ShoppingList } = require('./Models');
 
 // getUser should take a userId and return the found user, empty array or null if not found?
 const getUser = async (id) => {
@@ -49,6 +49,10 @@ const findAndDeleteFavorites = async (id, drinkId) => {
   return updatedUser;
 };
 
+const findAndDeleteEvents = async (id) => {
+  const deletedEvent = await Event.findOneAndDelete({ id });
+  return deletedEvent;
+};
 // Adds a review to the review model with information on author, drink and review.
 const addReviews = async (data) => {
   const reviewList = await Review.create({
@@ -70,31 +74,44 @@ const findDrinkReviews = async (id) => {
   return drinkReviews;
 };
 
-
 // Slackers get and create shoppingList
 const getShoppingList = async (userId) => {
   const { googleId } = userId;
-  
+
   try {
     const shoppingList = await ShoppingList.find({ user: googleId });
     return shoppingList;
   } catch (err) {
     console.error('could not get shoppingList\n', err);
   }
-  
-  } 
-  
-  const createShoppingList = async (userId) => {
-    const { googleId } = userId;
-  
-    try {
-      const newList = await ShoppingList.create({ googleId })
-      return newList;
-    } catch (err) {
-      console.error('createUserShoppingList failed \n', err);
-    }
+};
+
+const createShoppingList = async (userId) => {
+  const { googleId } = userId;
+
+  try {
+    const newList = await ShoppingList.create({ googleId });
+    return newList;
+  } catch (err) {
+    console.error('createUserShoppingList failed \n', err);
+  }
+};
+
+const updateShoppingList = async (userId, update) => {
+  const { googleId } = userId;
+
+  try {
+    const drink = await ShoppingList.findOneAndUpdate(
+      { googleId },
+      { $push: { List: update } },
+      { new: true }
+    );
+    return drink;
+  } catch(err) {
+    console.error('error from mongoose model method\n', err);
   }
 
+}
 
 module.exports = {
   getUser,
@@ -104,6 +121,8 @@ module.exports = {
   findAndDeleteFavorites,
   addReviews,
   findDrinkReviews,
+  findAndDeleteEvents,
   createShoppingList,
-  getShoppingList
+  getShoppingList,
+  updateShoppingList
 };
