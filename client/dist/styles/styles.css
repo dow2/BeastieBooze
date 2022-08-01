@@ -233,3 +233,8 @@ input::file-selector-button {
   margin: 6px;
   padding: 5px;
 }
+
+/* Map page Styles */
+#map-page {
+  padding-bottom: 10%;
+}
