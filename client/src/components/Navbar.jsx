@@ -60,7 +60,7 @@ const Navbar = () => {
         console.log(err);
       });
 
-      setCaption('');
+      handleClose();
   }
 
   const fileSelected = (e) => {

@@ -176,6 +176,7 @@ function UserContextProvider({ children }) {
     setShowLogoutButton(false);
     logoutUser();
   };
+  
   const getShoppingList = () => {
     // axios request to get shopping list from database
     const { googleId } = userInfo;

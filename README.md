@@ -2,6 +2,18 @@
 
 # Initialization
 
+API: https://www.thecocktaildb.com/api.php
+
+1. Sign up and subscribe to thecocktaildb patreon and donate $2 to reveive API key which will be emailed to you. 
+
+Google-maps API: https://developers.google.com/maps/documentation/javascript
+
+Amazon S3 Bucket: https://www.youtube.com/watch?v=eQAIojcArRY&t=0s&ab_channel=SamMeech-Ward
+
+AWS Deployment: 
+1. For Linux users: https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html
+2. For Windows users: https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/EC2_GetStarted.html
+
 Webpack:
 
 1.  BeastieBooze's react components are bundled/compiled using webpack and babel.
